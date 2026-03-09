@@ -12,6 +12,10 @@ var is_input_blocked: bool = false
 @onready var word_display: RichTextLabel = %WordDisplay
 @onready var keyboard_grid: GridContainer = %KeyboardGrid
 
+# Accès au SubViewport et au Mesh (feuille) pour y coller la texture du viewport
+@onready var subviewport: SubViewport = $SubViewport
+@onready var page_mesh: MeshInstance3D = $Node3D/Paper
+
 # Disposition du clavier AZERTY
 var azerty_layout: Array = [
 	"A", "Z", "E", "R", "T", "Y", "U", "I", "O", "P",
@@ -23,6 +27,8 @@ func _ready() -> void:
 	generate_keyboard()
 	update_lives_display()
 	load_next_word()
+	# Lier le SubViewport au Mesh (création d'un material qui utilise la texture du SubViewport)
+	setup_viewport_texture()
 
 # --- INITIALISATION ---
 
@@ -122,3 +128,35 @@ func update_word_display() -> void:
 
 func update_lives_display() -> void:
 	lives_label.text = "Vies : " + str(lives)
+
+# --- FONCTIONS D'ASSISTANCE POUR LE VIEWPORT ---
+
+func setup_viewport_texture() -> void:
+	# Assigne la texture du SubViewport au MeshInstance3D via un material non-éclairé (pour garder les couleurs 2D identiques)
+	if subviewport == null:
+		print("[setup_viewport_texture] SubViewport introuvable")
+		return
+	if page_mesh == null:
+		print("[setup_viewport_texture] MeshInstance3D introuvable")
+		return
+
+	var tex = subviewport.get_texture()
+	if tex == null:
+		# Forcer une mise à jour du SubViewport et retenter
+		if subviewport.has_method("update"):
+			subviewport.update()
+		tex = subviewport.get_texture()
+
+	if tex == null:
+		print("[setup_viewport_texture] Aucune texture récupérée depuis le SubViewport (taille=", subviewport.size, ")")
+		return
+
+	var mat := StandardMaterial3D.new()
+	mat.unshaded = true
+	mat.albedo_texture = tex
+	# On peut aussi utiliser emission_texture si besoin :
+	# mat.emission_enabled = true
+	# mat.emission_texture = tex
+
+	# Appliquer au mesh (material_override remplace tout le matériau de l'instance)
+	page_mesh.material_override = mat
