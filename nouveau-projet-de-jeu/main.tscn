@@ -10,15 +10,22 @@ offset_bottom = 40.0
 script = ExtResource("1_ig7tw")
 
 [node name="Background" type="ColorRect" parent="." unique_id=1340072694]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=175383099]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI" unique_id=1198375596]
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
 
 [node name="LivesLabel" type="Label" parent="UI" unique_id=672221957]
 offset_right = 40.0
@@ -27,7 +34,11 @@ offset_bottom = 23.0
 [node name="WordDisplay" type="RichTextLabel" parent="UI" unique_id=1329560262]
 offset_right = 40.0
 offset_bottom = 40.0
+size_flags_vertical = 3
+bbcode_enabled = true
 
 [node name="KeyboardGrid" type="GridContainer" parent="UI" unique_id=1850490550]
 offset_right = 40.0
 offset_bottom = 40.0
+size_flags_horizontal = 4
+columns = 10
