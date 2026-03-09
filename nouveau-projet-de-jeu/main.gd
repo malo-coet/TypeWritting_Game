@@ -10,17 +10,17 @@ var is_input_blocked: bool = false
 # --- NOEUDS DE L'INTERFACE ---
 @onready var lives_label: Label = %LivesLabel
 @onready var word_display: RichTextLabel = %WordDisplay
-@onready var keyboard_grid: GridContainer = %KeyboardGrid
+@onready var keyboard_vbox: VBoxContainer = %KeyBoardVbox
 
 # Accès au SubViewport et au Mesh (feuille) pour y coller la texture du viewport
 @onready var subviewport: SubViewport = $SubViewport
 @onready var page_mesh: MeshInstance3D = $Node3D/Paper
 
 # Disposition du clavier AZERTY
-var azerty_layout: Array = [
-	"A", "Z", "E", "R", "T", "Y", "U", "I", "O", "P",
-	"Q", "S", "D", "F", "G", "H", "J", "K", "L", "M",
-	"W", "X", "C", "V", "B", "N"
+var azerty_rows: Array = [
+	["A", "Z", "E", "R", "T", "Y", "U", "I", "O", "P"],
+	["Q", "S", "D", "F", "G", "H", "J", "K", "L", "M"],
+	["W", "X", "C", "V", "B", "N", ",", "'", "BACK"]
 ]
 
 func _ready() -> void:
@@ -33,17 +33,44 @@ func _ready() -> void:
 # --- INITIALISATION ---
 
 func generate_keyboard() -> void:
-	# Crée les boutons du clavier dynamiquement
-	for letter in azerty_layout:
-		var btn = Button.new()
-		btn.text = letter
-		btn.custom_minimum_size = Vector2(40, 60) # Taille adaptée pour mobile (à ajuster)
+	var style_empty = StyleBoxEmpty.new()
+	
+	var style_pressed = StyleBoxFlat.new()
+	style_pressed.bg_color = Color(0, 0, 0, 0.4)
+	style_pressed.corner_radius_top_left = 6
+	style_pressed.corner_radius_top_right = 6
+	style_pressed.corner_radius_bottom_left = 6
+	style_pressed.corner_radius_bottom_right = 6
+
+	# On boucle sur chaque ligne du clavier
+	for row in azerty_rows:
+		# Crée un conteneur horizontal pour cette ligne spécifique
+		var hbox = HBoxContainer.new()
+		hbox.alignment = BoxContainer.ALIGNMENT_CENTER # C'est LA magie pour centrer la dernière ligne !
+		hbox.add_theme_constant_override("separation", 5) # Espacement horizontal entre les touches
 		
-		btn.flat = true
-		btn.modulate = Color(1, 1, 1, 0) # Opacité à 0
-		btn.pressed.connect(_on_key_pressed.bind(letter)) 
-		
-		keyboard_grid.add_child(btn)
+		# On crée les boutons de cette ligne
+		for letter in row:
+			var btn = Button.new()
+			# btn.text = letter # À décommenter temporairement si tu veux voir où sont les touches
+			
+			# Tu peux rendre la touche "BACK" plus large si tu le souhaites :
+			if letter == "BACK":
+				btn.custom_minimum_size = Vector2(60, 60) # Plus large
+			else:
+				btn.custom_minimum_size = Vector2(40, 60)
+			
+			btn.add_theme_stylebox_override("normal", style_empty)
+			btn.add_theme_stylebox_override("hover", style_empty)
+			btn.add_theme_stylebox_override("focus", style_empty)
+			btn.add_theme_stylebox_override("pressed", style_pressed)
+			
+			btn.pressed.connect(_on_key_pressed.bind(letter))
+			
+			hbox.add_child(btn)
+			
+		# Ajoute la ligne complète au conteneur vertical
+		keyboard_vbox.add_child(hbox)
 
 func load_next_word() -> void:
 	if words.is_empty():
@@ -62,11 +89,15 @@ func load_next_word() -> void:
 # --- LOGIQUE DE JEU ---
 
 func _on_key_pressed(letter: String) -> void:
-	# Si le jeu est en pause (mot rouge ou vert) ou Game Over, on ignore la frappe
 	if is_input_blocked:
 		return
 		
-	# Vérifie si la lettre tapée correspond à la lettre attendue
+	# Gestion spéciale pour la touche Retour
+	if letter == "BACK":
+		print("La touche retour a été pressée !")
+		# Mets ici ta logique pour annuler une erreur ou reculer l'index
+		return
+		
 	if letter == current_word[current_letter_index]:
 		handle_correct_letter()
 	else:

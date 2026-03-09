@@ -102,6 +102,13 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_v5y12")
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_kek77"]
+viewport_path = NodePath("../SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4c57u"]
+resource_local_to_scene = true
+albedo_texture = SubResource("ViewportTexture_kek77")
+
 [node name="Main" type="Control" unique_id=1659983479]
 layout_mode = 3
 anchors_preset = 0
@@ -127,16 +134,23 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="TextureRect" type="TextureRect" parent="UI/VBoxContainer" unique_id=901235408]
+[node name="TextureRect" type="TextureRect" parent="UI/VBoxContainer/Control" unique_id=901235408]
 clip_contents = true
-layout_mode = 2
+layout_mode = 0
+offset_top = 870.0
+offset_right = 720.0
+offset_bottom = 1237.0
 texture = ExtResource("2_kek77")
 
-[node name="KeyboardGrid" type="GridContainer" parent="UI/VBoxContainer" unique_id=1850490550]
+[node name="KeyBoardVbox" type="VBoxContainer" parent="UI/VBoxContainer/Control" unique_id=340807884]
 unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-columns = 10
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
 
 [node name="Node3D" type="Node3D" parent="." unique_id=1189675820]
 
@@ -260,6 +274,7 @@ transform = Transform3D(7.84, 0, 0, 0, 2.125459, 7.5463915, 0, -7.5463915, 2.125
 [node name="HD2L_MOD_Paper_aiStandardSurface2_0" parent="paper/Sketchfab_model/paper_fbx/RootNode/HD2L_MOD_Paper" parent_id_path=PackedInt32Array(894490222, 1316138485) index="0" unique_id=426478040]
 transform = Transform3D(-8.109691, 0.011724294, 0.06994174, -0.005170375, -8.074864, 0.7540835, 0.07072887, 0.75401044, 8.074563, -70.83298, -307.86444, -12.530518)
 mesh = SubResource("ArrayMesh_ycdy4")
+surface_material_override/0 = SubResource("StandardMaterial3D_4c57u")
 
 [editable path="Node3D/Sketchfab_Scene"]
 [editable path="Sketchfab_Scene"]
