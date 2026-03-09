@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://fqwgns4yn40t" path="res://main.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://criuareagfgd1" path="res://ps1_phasmophobia.glb" id="2_h2yge"]
+[ext_resource type="Texture2D" uid="uid://vnmp12wqj1ds" path="res://Capture_d_écran_2026-03-09_à_21.33.21-removebg-preview.png" id="2_kek77"]
 [ext_resource type="Texture2D" uid="uid://cpvgqlqhf8kgw" path="res://ps1_phasmophobia_5.png" id="3_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://cfsvve5n5psm2" path="res://victorian_typewriter.glb" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://b8g4yf0cuhgxq" path="res://paper.glb" id="5_lquwl"]
@@ -125,6 +126,11 @@ layout_mode = 2
 [node name="Control" type="Control" parent="UI/VBoxContainer" unique_id=2008502587]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="UI/VBoxContainer" unique_id=901235408]
+clip_contents = true
+layout_mode = 2
+texture = ExtResource("2_kek77")
 
 [node name="KeyboardGrid" type="GridContainer" parent="UI/VBoxContainer" unique_id=1850490550]
 unique_name_in_owner = true

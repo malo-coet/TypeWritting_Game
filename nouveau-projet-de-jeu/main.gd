@@ -39,7 +39,8 @@ func generate_keyboard() -> void:
 		btn.text = letter
 		btn.custom_minimum_size = Vector2(40, 60) # Taille adaptée pour mobile (à ajuster)
 		
-		# Connexion du signal "pressed" à notre fonction avec la lettre en paramètre (Godot 4)
+		btn.flat = true
+		btn.modulate = Color(1, 1, 1, 0) # Opacité à 0
 		btn.pressed.connect(_on_key_pressed.bind(letter)) 
 		
 		keyboard_grid.add_child(btn)
