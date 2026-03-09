@@ -8,9 +8,9 @@ var current_letter_index: int = 0
 var is_input_blocked: bool = false
 
 # --- NOEUDS DE L'INTERFACE ---
-@onready var lives_label: Label = $UI/VBoxContainer/LivesLabel
-@onready var word_display: RichTextLabel = $UI/VBoxContainer/WordDisplay
-@onready var keyboard_grid: GridContainer = $UI/VBoxContainer/KeyboardGrid
+@onready var lives_label: Label = %LivesLabel
+@onready var word_display: RichTextLabel = %WordDisplay
+@onready var keyboard_grid: GridContainer = %KeyboardGrid
 
 # Disposition du clavier AZERTY
 var azerty_layout: Array = [

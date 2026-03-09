@@ -53,7 +53,12 @@ albedo_texture = ExtResource("4_lquwl")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_272bh"]
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_lquwl"]
+viewport_path = NodePath("SubViewport")
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5vw27"]
+resource_local_to_scene = true
+albedo_texture = SubResource("ViewportTexture_lquwl")
 
 [node name="Main" type="Control" unique_id=1659983479]
 layout_mode = 3
@@ -73,9 +78,15 @@ grow_vertical = 2
 theme_override_constants/separation = 20
 
 [node name="LivesLabel" type="Label" parent="UI/VBoxContainer" unique_id=672221957]
+unique_name_in_owner = true
 layout_mode = 2
 
+[node name="Control" type="Control" parent="UI/VBoxContainer" unique_id=2008502587]
+layout_mode = 2
+size_flags_vertical = 3
+
 [node name="KeyboardGrid" type="GridContainer" parent="UI/VBoxContainer" unique_id=1850490550]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 columns = 10
@@ -126,8 +137,11 @@ transform = Transform3D(0.43, -7.1054274e-15, 0, 0, -1.8795896e-08, 0.43, -7.105
 transform = Transform3D(0.02, 1.323489e-23, 0, 0, -8.742277e-10, -0.02, 0, 0.02, -8.742277e-10, -0.72216, -1.6472178, -1.1037878)
 
 [node name="SubViewport" type="SubViewport" parent="." unique_id=897953393]
+transparent_bg = true
+size = Vector2i(512, 256)
 
 [node name="WordDisplay" type="RichTextLabel" parent="SubViewport" unique_id=1329560262]
+unique_name_in_owner = true
 offset_top = 43.0
 offset_right = 1152.0
 offset_bottom = 628.0
